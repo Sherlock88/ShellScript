@@ -8,15 +8,18 @@ BEGIN {
 	maxRequest = ""
 }
 {
+	request = $2 " " $3
+	getline
+	#print "\n\n---------------------------\n\n"
 	if ($2 ~ /200/ || $2 ~ /500/) {
 		if ($2 ~ /200/) reqTime = $5 + 0
 		if ($2 ~ /500/) reqTime = $7 + 0
 		if (reqTime > maxTime) {
 			maxTime = reqTime
-			maxRequest = $0
+			maxRequest = request
 		}
 	}
 }
 END {
-	print maxRequest
+	print "\n** [Longest request]: " maxRequest "\n\n** [Time spent]: " maxTime "ms\n"
 }
